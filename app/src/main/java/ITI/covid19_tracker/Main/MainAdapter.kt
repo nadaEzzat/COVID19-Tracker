@@ -1,5 +1,6 @@
-package ITI.covid19_tracker
+package ITI.covid19_tracker.Main
 
+import ITI.covid19_tracker.R
 import ITI.covid19_tracker.model.Country
 import android.content.Context
 import android.view.LayoutInflater
@@ -9,8 +10,6 @@ import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.widget.LinearLayoutCompat
-import androidx.core.view.isGone
-import androidx.core.view.isVisible
 import androidx.recyclerview.widget.RecyclerView
 
 class MainAdapter(private val context: Context, private val messages: List<Country>?) :
@@ -28,7 +27,9 @@ class MainAdapter(private val context: Context, private val messages: List<Count
 
     override fun onBindViewHolder(viewHolder: ViewHolder, index: Int) {
         viewHolder.itemView.animation =
-            AnimationUtils.loadAnimation(context, R.anim.item_animation_fall_down)
+            AnimationUtils.loadAnimation(context,
+                R.anim.item_animation_fall_down
+            )
         viewHolder.country_name.text = messages?.get(index)?.country_name
         println("country_name" + messages?.get(index)?.country_name)
         viewHolder.cases.text = messages?.get(index)?.cases

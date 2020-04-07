@@ -1,6 +1,7 @@
-package ITI.covid19_tracker
+package ITI.covid19_tracker.Main
 
 import ITI.covid19_tracker.FetchingAPIData.FetchData
+import ITI.covid19_tracker.R
 import ITI.covid19_tracker.WorkManager.UploadWorker
 import ITI.covid19_tracker.model.Country
 import ITI.covid19_tracker.viewmodel.MainViewModel
@@ -24,7 +25,7 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-    lateinit var adapter:MainAdapter
+    lateinit var adapter: MainAdapter
     var messageViewModel: MainViewModel? = null
     var fetchData = FetchData()
 
@@ -91,7 +92,7 @@ class MainActivity : AppCompatActivity() {
 
     private fun renderMessges(messages: List<Country>?){
         print("RenderMessage")
-        adapter = MainAdapter(this,messages)
+        adapter = MainAdapter(this, messages)
         val layoutManager = LinearLayoutManager(this)
         layoutManager.stackFromEnd = false
         messageRecyclerView.layoutManager = layoutManager

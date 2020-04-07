@@ -1,13 +1,8 @@
 package ITI.covid19_tracker.WorkManager
 
-import ITI.covid19_tracker.FetchingAPIData.FetchData
-import ITI.covid19_tracker.MainActivity
-import ITI.covid19_tracker.viewmodel.MainViewModel
 import android.content.Context
-import android.util.Log
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import java.sql.Time
 import java.text.SimpleDateFormat
 import java.util.*
 

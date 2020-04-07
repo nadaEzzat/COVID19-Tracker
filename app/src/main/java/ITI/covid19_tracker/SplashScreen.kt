@@ -1,7 +1,7 @@
 package ITI.covid19_tracker
 
+import ITI.covid19_tracker.Main.MainActivity
 import android.os.Bundle
-import android.os.PersistableBundle
 import androidx.appcompat.app.AppCompatActivity
 import android.content.Intent
 import android.os.Handler
@@ -23,7 +23,7 @@ class SplashScreen : AppCompatActivity()  {
             // This method will be executed once the timer is over
             // Start your app main activity
 
-            startActivity(Intent(this,MainActivity::class.java))
+            startActivity(Intent(this, MainActivity::class.java))
 
             // close this activity
             finish()
