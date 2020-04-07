@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/SplashLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF"
+
+    android:transitionName="Layout"
+    tools:context=".SplashScreen">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="102dp"
+        android:textColor="@color/Red"
+        android:fontFamily="cursive"
+        android:gravity="center"
+        android:text="#Stay_at_Home"
+        android:textSize="30sp" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="107dp"
+        android:layout_marginLeft="107dp"
+        android:layout_marginTop="242dp"
+        android:fontFamily="sans-serif-black"
+        android:foregroundGravity="center"
+        android:gravity="center"
+        android:text="COVID-19"
+        android:textAppearance="@style/TextAppearance.AppCompat.Display1"
+        android:textColor="@color/Red"
+        android:textSize="@dimen/dp_hex"
+        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="195dp"
+        android:layout_height="155dp"
+        android:layout_above="@+id/textView"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="306dp"
+        android:layout_marginEnd="108dp"
+        android:layout_marginRight="108dp"
+        android:layout_marginBottom="149dp"
+        android:foregroundGravity="center"
+        app:srcCompat="@drawable/ic_malware"
+        tools:ignore="VectorDrawableCompat" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="107dp"
+        android:layout_marginRight="107dp"
+        android:layout_marginBottom="290dp"
+        android:foregroundGravity="center"
+        android:text="Tracker"
+        android:textColor="@color/Red"
+        android:textSize="24sp"
+        android:textStyle="bold" />
+
+</RelativeLayout>
