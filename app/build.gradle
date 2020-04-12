@@ -50,7 +50,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:retrofit:2.7.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.7.1'
 
-    //////////////////
+
     // Coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.2.1'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.2.1'
@@ -64,22 +64,28 @@ dependencies {
     implementation "android.arch.persistence.room:rxjava2:1.1.1"
     kapt 'android.arch.persistence.room:compiler:1.1.1'
 
-    def work_version = "2.3.4"
     // Kotlin + coroutines
-    implementation "androidx.work:work-runtime-ktx:$work_version"
-
-    // Kotlin + coroutines
-    implementation "androidx.work:work-runtime-ktx:$work_version"
+   // def work_version = "2.3.4"
+    implementation "androidx.work:work-runtime-ktx:2.3.4"
 
     // optional - RxJava2 support
-    implementation "androidx.work:work-rxjava2:$work_version"
+    implementation "androidx.work:work-rxjava2:2.3.4"
 
-    // optional - GCMNetworkManager support
-    implementation "androidx.work:work-gcm:$work_version"
-    implementation "android.arch.work:work-runtime:1.0.0"
-
+   // implementation "androidx.work:work-gcm:$work_version"
+   // implementation "android.arch.work:work-runtime:1.0.0"
+    dependencies {
+        def work_version = "1.0.0-beta02"
+        implementation "android.arch.work:work-runtime-ktx:$work_version"
+    }
 
     // optional - Test helpers
-    androidTestImplementation "androidx.work:work-testing:$work_version"
+    androidTestImplementation "androidx.work:work-testing:2.3.4"
+    implementation 'com.google.android.material:material:1.1.0'
+
+    //noinspection GradleCompatible
+    implementation "com.android.support:design:26.1.0"
+
+    implementation "com.google.android.material:material:1.0.0"
+
 
 }

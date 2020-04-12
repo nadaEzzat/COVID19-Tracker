@@ -4,17 +4,22 @@ import ITI.covid19_tracker.db.CountryRepository
 import ITI.covid19_tracker.model.Country
 import android.app.Application
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.ViewModel
 
 class MainViewModel (application: Application) : AndroidViewModel(application) {
 
     private var repository:CountryRepository = CountryRepository(application)
 
-    fun getMessages() = repository.getMessages()
+    fun getAllData() = repository.getAllData()
 
-    fun setMessage(message: Country) { repository.setMessage(message)}
+    fun setCountry(country: Country) { repository.setCountry(country)}
 
     fun delete() { repository.delete()}
 
     fun search(countryname : String) = repository.search(countryname)
+
+    fun updateSubCountry(countryname: String?, sub: String) = repository.updateSubCountry(countryname ,sub)
+
+    fun checkSubscribtion(country: Country) :Boolean {
+        return  repository.checkSubscribtion(country)
+    }
 }

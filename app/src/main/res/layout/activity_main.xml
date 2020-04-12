@@ -1,4 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
+
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,7 +9,8 @@
     android:paddingLeft="10dp"
     android:paddingRight="10dp"
     android:paddingTop="10dp"
-    tools:context=".Main.MainActivity">
+    android:id="@+id/ParentLayout"
+    tools:context=".view.MainActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -22,7 +25,7 @@
 
 
             <EditText
-                android:id="@+id/messageEditText"
+                android:id="@+id/searchBox"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
@@ -40,14 +43,20 @@
 
         </LinearLayout>
 
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/SwipeRefresh"
+            android:layout_height="match_parent"
+            android:layout_width="match_parent" >
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/messageRecyclerView"
+            android:id="@+id/countryRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:divider="@android:color/transparent"
             android:stackFromBottom="true"
             android:transcriptMode="alwaysScroll" />
-    </LinearLayout>
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+</LinearLayout>
 
 
 </RelativeLayout>

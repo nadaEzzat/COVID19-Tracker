@@ -13,26 +13,13 @@ class UploadWorker(appContext: Context, workerParams: WorkerParameters) : Worker
 
     override fun doWork(): Result {
 
-
         println("Work Done")
         val date = Calendar.getInstance().time
         val formatter = SimpleDateFormat.getDateTimeInstance() //or use getDateInstance()
         val formatedDate = formatter.format(date)
         println(formatedDate)
-      //  MainActivity.fetchData.getDetails()
+          //  MainActivity.fetchData.getDetails()
         return Result.success()
-
-//        // Get the input
-//        val imageUriInput = getInputData().getString(Constants.KEY_IMAGE_URI)
-//        // TODO: validate inputs.
-//        // Do the work
-//        val response = uploadFile(imageUriInput)
-//
-//        // Create the output of the work
-//        val outputData = workDataOf(Constants.KEY_IMAGE_URL to response.imageUrl)
-
-        // Return the output
-        // return Result.success(outputData)
 
     }
 }

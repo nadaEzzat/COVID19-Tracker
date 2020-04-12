@@ -22,30 +22,56 @@ class CountryRepository(application: Application) : CoroutineScope {
         countryDao = db?.countryDao()
     }
 
-    fun getMessages() = countryDao?.getAll()
+    fun getAllData() = countryDao?.getAll()
+
+    fun updateSubCountry(name: String?, sub: String)
+    {
+        launch  { updateSubCountryBG(name,sub) }
+    }
+    private suspend fun updateSubCountryBG(countryname: String?, sub: String){
+        withContext(Dispatchers.IO){
+            countryDao?.updateSubCountry(countryname  , sub)
+        }
+    }
 
     fun search(countryname : String ) = countryDao?.search(countryname)
 
-    fun setMessage(message: Country) {
-        launch  { setMessageBG(message) }
+    fun setCountry(countryname: Country) {
+        launch  { setCountryBG(countryname) }
     }
+    private suspend fun setCountryBG(countryname: Country){
+        withContext(Dispatchers.IO){
+            countryDao?.addCountry(countryname)
+        }
+    }
+
 
     fun delete() {
         launch  { deleteBG()}
     }
 
-    private suspend fun setMessageBG(message: Country){
-        withContext(Dispatchers.IO){
-            countryDao?.insert(message)
-        }
-    }
     private suspend fun deleteBG(){
         withContext(Dispatchers.IO){
             countryDao?.deleteAll()
         }
     }
 
-
+fun checkSubscribtion(country: Country) : Boolean
+{
+    var r : Boolean = false
+    launch{
+        r =  checkSubscribtionB(country)
+    }
+    return r
+}
+    private suspend fun checkSubscribtionB(country: Country)  : Boolean
+    {
+        var r : Boolean = false
+        withContext(Dispatchers.IO){
+            r = countryDao?.checkSub(country)!!
+        }
+        return r
+    }
     /*{
         countryDao?.search(countryname)
         //launch  { searchBG(countryname)}
