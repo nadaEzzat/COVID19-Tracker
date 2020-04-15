@@ -19,6 +19,17 @@
         app:layout_constraintBottom_toTopOf="@+id/textView"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:id="@+id/logo"
+            android:layout_width="162dp"
+            android:layout_height="109dp"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_gravity="center"
+            android:foregroundGravity="center"
+            app:srcCompat="@drawable/ic_coronavirus"
+            tools:ignore="VectorDrawableCompat" />
+
         <TextView
             android:id="@+id/textView2"
             android:layout_width="wrap_content"
@@ -28,20 +39,10 @@
             android:gravity="center"
             android:text="COVID-19"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textColor="@color/cardview_dark_background"
+            android:textColor="@color/Red"
+            android:textColorHighlight="#AE0606"
             android:textSize="50dp"
             android:textStyle="bold" />
-
-        <ImageView
-            android:id="@+id/logo"
-            android:layout_width="162dp"
-            android:layout_height="109dp"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:foregroundGravity="center"
-            app:srcCompat="@drawable/ic_patient"
-            tools:ignore="VectorDrawableCompat" />
 
         <TextView
             android:id="@+id/textView3"
@@ -52,7 +53,8 @@
             android:gravity="center"
             android:text="Tracker"
             android:textAppearance="@style/TextAppearance.AppCompat.Display1"
-            android:textColor="@color/cardview_dark_background"
+            android:textColor="@color/Red"
+            android:textColorHighlight="#AE0606"
             android:textSize="50dp"
             android:textStyle="bold" />
 
@@ -62,7 +64,7 @@
         android:id="@+id/textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="40dp"
         android:fontFamily="cursive"
         android:gravity="center"
         android:text="#Stay_at_Home"

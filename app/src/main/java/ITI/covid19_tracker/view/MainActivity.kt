@@ -1,14 +1,13 @@
 package ITI.covid19_tracker.view
 
-import ITI.covid19_tracker.FetchingAPIData.FetchData
+import ITI.covid19_tracker.db.FetchingAPIData.FetchData
 import ITI.covid19_tracker.Network.newtwork
-import ITI.covid19_tracker.NotificationHelper
 import ITI.covid19_tracker.R
+import ITI.covid19_tracker.WorkManager.UploadWorker
 import ITI.covid19_tracker.model.Country
 import ITI.covid19_tracker.viewmodel.MainViewModel
-import android.app.PendingIntent
-import android.content.Intent
-import android.content.Intent.getIntent
+import android.content.Context
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -19,45 +18,58 @@ import android.view.ViewGroup
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
-import androidx.core.app.NotificationCompat
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
-import com.google.android.material.snackbar.Snackbar
+import androidx.work.Constraints
+import androidx.work.NetworkType
+import androidx.work.PeriodicWorkRequest
+import androidx.work.WorkManager
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.concurrent.TimeUnit
 
 
 class MainActivity : Fragment() {
 
-    val checkNetworkConnection = newtwork()
-
     lateinit var adapter: MainAdapter
-    var ViewModel: MainViewModel? = null
-    var fetchData = FetchData()
+    private var PRIVATE_MODE = 0
+    private val PREF_NAME = "work-manager"
+
+    var sharedPref: SharedPreferences? = null
+
+
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        mcontext = context
+    }
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
+        inflater: LayoutInflater,
+        container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        sharedPref = mcontext.getSharedPreferences(PREF_NAME, PRIVATE_MODE)
+
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.activity_main, container, false)
-
         var searchBtn: ImageButton = view.findViewById(R.id.searchButton)
-        var searchBox: TextView = view.findViewById(R.id.searchBox);
+        var searchBox: TextView = view.findViewById(R.id.searchBox)
         var SwipeRefresh: SwipeRefreshLayout = view.findViewById(R.id.SwipeRefresh)
         var countryRecyclerView: RecyclerView = view.findViewById(R.id.countryRecyclerView)
 
-
         ViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
+
         //Get API Data
-       FetchDataAPIData()
+        //  FetchDataAPIData()
 
         //WorkManager
-         setWorkManager()
+        //setWorkManager()
 
         getDataFomDataBase()
         // messageViewModel?.getMessages()?.observe(this, Observer<List<Country>> { this.renderMessges(it) })
@@ -76,6 +88,8 @@ class MainActivity : Fragment() {
 
         // Search
         searchBtn.setOnClickListener {
+            setWorkManager()
+
             var country: String = searchBox.text.toString()
             if (country.trim().equals("")) {
                 Toast.makeText(requireContext(), "Please Enter Countery Name", Toast.LENGTH_LONG)
@@ -92,8 +106,6 @@ class MainActivity : Fragment() {
             Log.i("tag", "FirstSCROLLING")
             FetchDataAPIData()
             SwipeRefresh.setRefreshing(false);
-            val snack = Snackbar.make(ParentLayout, "Your Data is Updated", Snackbar.LENGTH_LONG)
-            snack.show()
 
 
         }
@@ -111,51 +123,54 @@ class MainActivity : Fragment() {
 
     private fun getDataFomDataBase() {
         ViewModel?.getAllData()
-            ?.observe(this, Observer<List<Country>> { this.getData(it) })
+            ?.observe(this, Observer<List<Country>> { this.setData(it) })
     }
 
     private fun setWorkManager() {
-/*
+
+        var time = sharedPref?.getInt("Time", 15)?.toLong()
+        var unit = sharedPref?.getString("Unit", "MINUTES").toString()
+        //  var timeunit = TimeUnit.valueOf(unit)
+
         val constraints = Constraints.Builder()
             .setRequiredNetworkType(NetworkType.CONNECTED)
             .build()
+        var test = TimeUnit.MINUTES
+
+        if (unit.equals("MINUTES")) {
+
+            test = TimeUnit.MINUTES
+
+        } else if (unit.equals("DAYS")) {
+
+            test = TimeUnit.DAYS
+
+        } else if (unit.equals("HOURS")) {
+
+            test = TimeUnit.HOURS
+
+        }
+
 
         val workerInstance = PeriodicWorkRequest.Builder(
-            UploadWorker::class.java, 1, TimeUnit.MINUTES)
+            UploadWorker::class.java, time!!, test
+        )
             .setConstraints(constraints)
             .build()
 
         WorkManager.getInstance(requireContext()).enqueue(workerInstance)
-  */
-        val notificationHelper =
-            NotificationHelper(context, "HI NADA ", "wait your trip")
-        val nb: NotificationCompat.Builder? =
-            notificationHelper.getChannelNotification()
-
-        val notifyIntent: Intent = Intent()
-        notifyIntent.setClassName(
-            "com.ProjectITI.tripsproject",
-            "com.ProjectITI.tripsproject.ShowAlertDialog"
-        )
-        notifyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-
-        val notifyPendingIntent = PendingIntent.getActivity(
-            context,
-            notifyIntent.getIntExtra("request", 0),
-            notifyIntent,
-            PendingIntent.FLAG_UPDATE_CURRENT
-        )
-        if (nb != null) {
-            nb.setContentIntent(notifyPendingIntent)
-        }
-        notificationHelper.getManager().notify(Intent().getIntExtra("request", 0), nb?.build())
     }
 
-    private fun getData(country: List<Country>?) {
+    private fun setData(country: List<Country>?) {
 
         if (country.isNullOrEmpty()) {
 
+            LayoutRecycle.visibility = View.INVISIBLE
+            NoData.visibility = View.VISIBLE
+
         } else {
+            NoData.visibility = View.INVISIBLE
+            LayoutRecycle.visibility = View.VISIBLE
             setupRecycleData(country)
         }
     }
@@ -171,29 +186,38 @@ class MainActivity : Fragment() {
     }
 
     fun setupRecycleData(country: List<Country>?) {
-        adapter = MainAdapter(requireContext(), country,ViewModel)
+        adapter = MainAdapter(requireContext(), country, ViewModel)
         val layoutManager = LinearLayoutManager(requireContext())
         layoutManager.stackFromEnd = false
         countryRecyclerView.layoutManager = layoutManager
         countryRecyclerView.adapter = adapter
     }
 
-    fun FetchDataAPIData() {
-        Log.i("tag", "Fetching data")
-        if (checkInternetConnection()) {
-            fetchData.getDetails(ViewModel)
-        } else {
-            Toast.makeText(
-                requireContext(),
-                "Please Connect to the Internet to Get Latest Data",
-                Toast.LENGTH_LONG
-            )
-                .show();
-            Log.i("tag", "Please Check Your Internet Connection to Get Latest Data")
+    companion object {
+        lateinit var mcontext: Context
+        // lateinit var sharedPref: SharedPreferences
+        var ViewModel: MainViewModel? = null
+        var fetchData = FetchData()
+        val checkNetworkConnection = newtwork()
+        fun FetchDataAPIData() {
+            Log.i("tag", "Fetching data")
+            if (checkInternetConnection()) {
+                fetchData.getDetails(ViewModel)
+            } else {
+                Toast.makeText(
+                    mcontext,
+                    "Please Connect to the Internet to Get Latest Data",
+                    Toast.LENGTH_LONG
+                )
+                    .show();
+                Log.i("tag", "Please Check Your Internet Connection to Get Latest Data")
+            }
+        }
+
+        fun checkInternetConnection(): Boolean {
+            return checkNetworkConnection.hasInternetConnection(mcontext)
         }
     }
 
-    fun checkInternetConnection(): Boolean {
-        return checkNetworkConnection.hasInternetConnection(requireContext())
-    }
+
 }

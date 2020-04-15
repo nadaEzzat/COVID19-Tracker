@@ -1,8 +1,6 @@
-package ITI.covid19_tracker.FetchingAPIData
+package ITI.covid19_tracker.db.FetchingAPIData
 
-import ITI.covid19_tracker.model.Country
 import ITI.covid19_tracker.model.Model
-import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.http.GET
 

@@ -1,4 +1,4 @@
-package ITI.covid19_tracker.FetchingAPIData
+package ITI.covid19_tracker.db.FetchingAPIData
 
 interface FetchCompleteListener {
     fun fetchComplete()

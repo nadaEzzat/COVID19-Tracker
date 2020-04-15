@@ -7,12 +7,12 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_patient"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@drawable/ic_patient"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".settings.settingsMain2Activity"
+        <activity android:name="ITI.covid19_tracker.view.settings.settingsMain2Activity"
             android:theme="@style/SetingTheme"
             ></activity>
         <activity
@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".view.MainActivity" />
-        <activity android:name=".Tab.ActivityTab" />
+        <activity android:name="ITI.covid19_tracker.view.Tab.ActivityTab" />
     </application>
 
 </manifest>

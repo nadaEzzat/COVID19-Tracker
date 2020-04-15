@@ -39,8 +39,7 @@ class NotificationHelper(base: Context?, title: String, body: String) : ContextW
 
     fun getManager(): NotificationManager {
         if (mManager == null) {
-            mManager =
-                getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+            mManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         }
         return mManager as NotificationManager
     }
@@ -53,8 +52,8 @@ class NotificationHelper(base: Context?, title: String, body: String) : ContextW
             .setContentTitle(title)
             .setContentText(body)
             .setColor(resources.getColor(R.color.Red))
-            .setOngoing(true)
-            .setAutoCancel(true)
+            .setOngoing(false)
+            .setAutoCancel(false)
             .setSmallIcon(R.drawable.ic_patient)
     }
 }

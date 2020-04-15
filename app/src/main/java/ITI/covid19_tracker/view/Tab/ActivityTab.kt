@@ -1,8 +1,8 @@
-package ITI.covid19_tracker.Tab
+package ITI.covid19_tracker.view.Tab
 
 import ITI.covid19_tracker.R
-import ITI.covid19_tracker.settings.settingsMain2Activity
-import ITI.covid19_tracker.statistics.statisticsFragment
+import ITI.covid19_tracker.view.settings.settingsMain2Activity
+import ITI.covid19_tracker.view.statistics.statisticsFragment
 import ITI.covid19_tracker.view.MainActivity
 import android.content.Intent
 import android.os.Bundle

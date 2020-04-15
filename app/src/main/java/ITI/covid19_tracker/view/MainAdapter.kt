@@ -61,7 +61,7 @@ class MainAdapter(private val context: Context, private val messages: List<Count
         }
 
         viewHolder.subscribe_id.setOnClickListener {
-            if(viewHolder.subscribe_id.text.equals("SUBSCRIBE"))
+            if(messages?.get(index)?.Subscribe.equals("0"))
             {
                 viewHolder.subscribe_id.text = "UNSUBSCRIBE"
                 viewmodel?.updateSubCountry(messages?.get(index)?.country_name, "1")
