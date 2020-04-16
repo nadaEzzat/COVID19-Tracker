@@ -11,7 +11,7 @@ import java.util.*
 class UploadWorker(appContext: Context, workerParams: WorkerParameters) : Worker(appContext, workerParams) {
 
     override fun doWork(): Result {
-        println("Work Ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddone")
+        println("Work Done")
         val date = Calendar.getInstance().time
         val formatter = SimpleDateFormat.getDateTimeInstance() //or use getDateInstance()
         val formatedDate = formatter.format(date)

@@ -101,15 +101,7 @@ interface CountryDao {
 
             if (flag == -1.toLong()) {
                 checkSub(country.get(i))
-                Log.i("tag", "BEFORE  Cases " + getCases(country.get(i).country_name))
-                Log.i("tag", "BEFORE  Cases " + country.get(i).cases)
-                Log.i("tag", "---------------------------")
-                Log.i("tag", "BEFORE  newCAses " + getNewCases(country.get(i).country_name))
-                Log.i("tag", "BEFORE  newCases " + country.get(i).new_cases)
-                Log.i("tag", "---------------------------")
-                Log.i("tag", "BEFORE  newDeath " + getNewDeaths(country.get(i).country_name))
-                Log.i("tag", "BEFORE  newDeath " + country.get(i).new_deaths)
-                Log.i("tag", "---------------------------")
+
                 var ip: Int = updateCountry(
                     country.get(i).cases,
                     country.get(i).new_cases,
@@ -120,14 +112,8 @@ interface CountryDao {
                     country.get(i).country_name
                 )
                 //    updateCases(country.country_name, country.cases)
-                Log.i("tag", "AFTER  Cases " + getCases(country.get(i).country_name))
-                Log.i("tag", "BEFORE  newDeath " + getNewDeaths(country.get(i).country_name))
-                Log.i("tag", "BEFORE  newCases " + country.get(i).new_cases)
 
-                Log.i(
-                    "tag",
-                    "UPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPATE   :  " + ip
-                )
+                Log.i("tag", "UPDATE   :  " + ip)
                 Log.i("tag", "---------------------------")
             }
         }

@@ -49,7 +49,7 @@ class MainAdapter(private val context: Context, private val country: List<Countr
         //println("new_deaths" + country?.get(index)?.new_deaths)
         viewHolder.total_recovered.text = country?.get(index)?.total_recovered
         viewHolder.total_cases_per_1m_population.text =
-            country?.get(index)?.Subscribe
+            country?.get(index)?.total_cases_per_1m_population
 
         viewHolder.showdetails.setOnClickListener {
             if (viewHolder.Details.visibility == View.VISIBLE) {

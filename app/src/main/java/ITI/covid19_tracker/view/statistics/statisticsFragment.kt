@@ -163,7 +163,7 @@ class statisticsFragment : Fragment() {
                 barChart.invalidate()
                 timeOftatistic.setText(it?.get(0)?.statistic_taken_at)
             }else {
-                Log.i("tag", "ERRRRRRRRRRRRRRRRRRRRRRRRRROR < 0")
+                Log.i("tag", "Count < 0")
             }
         }else {
             Log.i("tag", "NUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUULLLLLLLL = null")
