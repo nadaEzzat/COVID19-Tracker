@@ -89,7 +89,8 @@ class SplashScreen : AppCompatActivity()  {
 
         }
 
-
+Log.i("tag","WORK MANAGER")
+        Log.i("tag","" + time + "")
         val workerInstance = PeriodicWorkRequest.Builder(
             UploadWorker::class.java, time!!, test
         )

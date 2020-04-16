@@ -45,6 +45,15 @@ class CountryRepository(application: Application) : CoroutineScope {
         }
     }
 
+    fun setALLCountry(country: ArrayList<Country>) {
+        launch  { setALLCountryBG(country) }
+    }
+    private suspend fun setALLCountryBG(country: ArrayList<Country>){
+        withContext(Dispatchers.IO){
+            countryDao?.addALLCountry(country)
+        }
+    }
+
 
     fun delete() {
         launch  { deleteBG()}

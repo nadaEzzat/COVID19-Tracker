@@ -7,6 +7,7 @@ import ITI.covid19_tracker.view.MainActivity
 import ITI.covid19_tracker.viewmodel.MainViewModel
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.LiveData
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -70,8 +71,9 @@ class FetchData() : AppCompatActivity(){//, FetchCompleteListener {
 
                         // Delete previuos data
                         //ViewModel?.delete()
-
+                        val arr : ArrayList<Country> = ArrayList<Country>()
                         val weatherResponse = response.body()!!
+
                         var count = weatherResponse.countries_stat?.size
                         Log.i("tag", " Count : $count")
                         if (count != null) {
@@ -97,12 +99,14 @@ class FetchData() : AppCompatActivity(){//, FetchCompleteListener {
                                     total_cases_per_1m_population,
                                     "0"
                                 )
+
+                                arr.add(country)
                                 // check if this country is subscribed or not
                                // Log.i("tag", "check if this " + country.country_name + "  " + ViewModel?.checkSubscribtion(country)!!)
 
-                               ViewModel?.setCountry(country)
+                           //    ViewModel?.setCountry(country)
                             }
-
+                            ViewModel?.setALLCountry(arr)
                         }
 
 

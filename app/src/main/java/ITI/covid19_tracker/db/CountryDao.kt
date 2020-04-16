@@ -12,6 +12,7 @@ import androidx.lifecycle.LiveData
 import androidx.room.*
 import java.security.SecureRandom
 import java.util.*
+import kotlin.collections.ArrayList
 import kotlin.coroutines.coroutineContext
 
 
@@ -91,6 +92,49 @@ interface CountryDao {
     }
 
     @Transaction
+    fun addALLCountry(country: ArrayList<Country>) {
+
+        for (i in (1..country.size-1)) {
+
+            var flag: Long = insert(country.get(i))
+            Log.i("tag", "INSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSERT :  " + flag)
+
+            if (flag == -1.toLong()) {
+                checkSub(country.get(i))
+                Log.i("tag", "BEFORE  Cases " + getCases(country.get(i).country_name))
+                Log.i("tag", "BEFORE  Cases " + country.get(i).cases)
+                Log.i("tag", "---------------------------")
+                Log.i("tag", "BEFORE  newCAses " + getNewCases(country.get(i).country_name))
+                Log.i("tag", "BEFORE  newCases " + country.get(i).new_cases)
+                Log.i("tag", "---------------------------")
+                Log.i("tag", "BEFORE  newDeath " + getNewDeaths(country.get(i).country_name))
+                Log.i("tag", "BEFORE  newDeath " + country.get(i).new_deaths)
+                Log.i("tag", "---------------------------")
+                var ip: Int = updateCountry(
+                    country.get(i).cases,
+                    country.get(i).new_cases,
+                    country.get(i).deaths,
+                    country.get(i).new_deaths,
+                    country.get(i).total_cases_per_1m_population,
+                    country.get(i).total_recovered,
+                    country.get(i).country_name
+                )
+                //    updateCases(country.country_name, country.cases)
+                Log.i("tag", "AFTER  Cases " + getCases(country.get(i).country_name))
+                Log.i("tag", "BEFORE  newDeath " + getNewDeaths(country.get(i).country_name))
+                Log.i("tag", "BEFORE  newCases " + country.get(i).new_cases)
+
+                Log.i(
+                    "tag",
+                    "UPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPATE   :  " + ip
+                )
+                Log.i("tag", "---------------------------")
+            }
+        }
+    }
+
+
+    @Transaction
     fun checkSub(country: Country): Boolean {
         var flag: String = getSubscribtion(country.country_name)
         Log.i("tag", "SUBSCRIBTIO IN DAO : " + country.country_name + " " + flag)
@@ -136,7 +180,6 @@ interface CountryDao {
             Notif(country.country_name, cases, dea)
 
         }
-
 
     }
 

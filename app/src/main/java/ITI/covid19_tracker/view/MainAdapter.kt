@@ -13,7 +13,7 @@ import android.widget.TextView
 import androidx.appcompat.widget.LinearLayoutCompat
 import androidx.recyclerview.widget.RecyclerView
 
-class MainAdapter(private val context: Context, private val messages: List<Country>?, ViewModel: MainViewModel?) :
+class MainAdapter(private val context: Context, private val country: List<Country>?, ViewModel: MainViewModel?) :
     RecyclerView.Adapter<MainAdapter.ViewHolder>() {
 
     var viewmodel: MainViewModel? = ViewModel
@@ -27,27 +27,29 @@ class MainAdapter(private val context: Context, private val messages: List<Count
     }
 
     override fun getItemCount(): Int {
-        return messages?.size!!
+        return country?.size!!
     }
 
     override fun onBindViewHolder(viewHolder: ViewHolder, index: Int) {
+
         viewHolder.itemView.animation =
             AnimationUtils.loadAnimation(context,
                 R.anim.item_animation_fall_down
             )
-        viewHolder.country_name.text = messages?.get(index)?.country_name
-//        println("country_name" + messages?.get(index)?.country_name)
-        viewHolder.cases.text = messages?.get(index)?.cases
-  //      println("cases" + messages?.get(index)?.cases)
-        viewHolder.new_cases.text = messages?.get(index)?.new_cases
-    //    println("new_cases" + messages?.get(index)?.new_cases)
-        viewHolder.deaths.text = messages?.get(index)?.deaths
-      //  println("deaths" + messages?.get(index)?.deaths)
-        viewHolder.new_deaths.text = messages?.get(index)?.new_deaths
-        //println("new_deaths" + messages?.get(index)?.new_deaths)
-        viewHolder.total_recovered.text = messages?.get(index)?.total_recovered
+
+        viewHolder.country_name.text = country?.get(index)?.country_name
+//        println("country_name" + country?.get(index)?.country_name)
+        viewHolder.cases.text = country?.get(index)?.cases
+  //      println("cases" + country?.get(index)?.cases)
+        viewHolder.new_cases.text = country?.get(index)?.new_cases
+    //    println("new_cases" + country?.get(index)?.new_cases)
+        viewHolder.deaths.text = country?.get(index)?.deaths
+      //  println("deaths" + country?.get(index)?.deaths)
+        viewHolder.new_deaths.text = country?.get(index)?.new_deaths
+        //println("new_deaths" + country?.get(index)?.new_deaths)
+        viewHolder.total_recovered.text = country?.get(index)?.total_recovered
         viewHolder.total_cases_per_1m_population.text =
-            messages?.get(index)?.Subscribe
+            country?.get(index)?.Subscribe
 
         viewHolder.showdetails.setOnClickListener {
             if (viewHolder.Details.visibility == View.VISIBLE) {
@@ -61,23 +63,22 @@ class MainAdapter(private val context: Context, private val messages: List<Count
         }
 
         viewHolder.subscribe_id.setOnClickListener {
-            if(messages?.get(index)?.Subscribe.equals("0"))
+            if(country?.get(index)?.Subscribe.equals("0"))
             {
                 viewHolder.subscribe_id.text = "UNSUBSCRIBE"
-                viewmodel?.updateSubCountry(messages?.get(index)?.country_name, "1")
+                viewmodel?.updateSubCountry(country?.get(index)?.country_name, "1")
 
             }else{
                 viewHolder.subscribe_id.text = "SUBSCRIBE"
-                viewmodel?.updateSubCountry(messages?.get(index)?.country_name, "0")
+                viewmodel?.updateSubCountry(country?.get(index)?.country_name, "0")
             }
         }
 
-        if(messages?.get(index)?.Subscribe.equals(
-                "1"
-            ))
+        if(country?.get(index)?.Subscribe.equals("1"))
         {
             viewHolder.subscribe_id.text = "UNSUBSCRIBE"
         }
+
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

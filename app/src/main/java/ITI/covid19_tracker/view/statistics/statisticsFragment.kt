@@ -157,6 +157,8 @@ class statisticsFragment : Fragment() {
                 barChart.setBackgroundColor(1)
                 //   barChart.setOnTouchListener { v, event ->  }
                 barChart.setDescription("World Total Stat")
+                barChart.setDescriptionTextSize(22f)
+
 
                 barChart.invalidate()
                 timeOftatistic.setText(it?.get(0)?.statistic_taken_at)
