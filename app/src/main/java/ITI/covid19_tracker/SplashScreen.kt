@@ -35,6 +35,7 @@ class SplashScreen : AppCompatActivity()  {
     private val SPLASH_TIME_OUT:Long = 3000 // 1 sec
 
     var staticViewModel: StatisticViewModel? = null
+
     lateinit var fetchStatisticData: FetchStatisticData
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -125,7 +126,7 @@ class SplashScreen : AppCompatActivity()  {
         }
     }
     fun FetchStaticAPIData() {
-        Log.i("tag", "Fetching data")
+        Log.i("tag", "Fetching Static data")
         if (checkInternetConnection()) {
             fetchStatisticData.getDetails(staticViewModel)
         } else {

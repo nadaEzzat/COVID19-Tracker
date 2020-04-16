@@ -20,7 +20,10 @@ interface statisticDao {
     @Transaction
     fun set(country: statisticModel)
     {
+        deleteAll()
+
         var l : Long = insert(country)
+
         Log.i("tag","DDDDDDDDDDDDDDDDDDDDONNNNNNNNNNNNNNNNNNNNNNNNNNNNE   + "+l)
     }
 }

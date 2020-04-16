@@ -1,6 +1,7 @@
 package ITI.covid19_tracker.db
 
 import ITI.covid19_tracker.NotificationHelper
+import ITI.covid19_tracker.SplashScreen
 import ITI.covid19_tracker.model.Country
 import ITI.covid19_tracker.view.MainActivity
 import android.app.PendingIntent
@@ -124,9 +125,7 @@ interface CountryDao {
 
         Log.i("tag", "" + Cases.equals(country.cases) + "  " + Death.equals(country.deaths))
         Log.i("tag", "" + Cases + "  " + country.cases + " " + Death + "  " + country.deaths)
-        if (!newCases.equals(country.new_cases) || !newDeath.equals(country.new_deaths) || !Cases.equals(
-                country.cases
-            ) || Death.equals(country.deaths)
+        if (!newCases.equals(country.new_cases) || !newDeath.equals(country.new_deaths) || !Cases.equals(country.cases) || !Death.equals(country.deaths)
         ) {
 
             Log.i("tag", "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFfire")
@@ -159,7 +158,7 @@ interface CountryDao {
 
         val notificationHelper =
             NotificationHelper(
-                MainActivity.mcontext,
+                SplashScreen.mContext,
                 countryname,
                 death
             )
@@ -177,7 +176,7 @@ interface CountryDao {
         //17,756 -> 18,056 spain
 
         val notifyPendingIntent = PendingIntent.getActivity(
-            MainActivity.mcontext,
+            SplashScreen.mContext,
             notifyIntent.getIntExtra("request", 0),
             notifyIntent,
             PendingIntent.FLAG_UPDATE_CURRENT

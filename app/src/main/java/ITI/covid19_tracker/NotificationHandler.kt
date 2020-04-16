@@ -50,7 +50,7 @@ class NotificationHelper(base: Context?, title: String, body: String) : ContextW
             channelID
         )
             .setContentTitle(title)
-            .setContentText(body)
+            .setContentText("There are changes in this country")
             .setColor(resources.getColor(R.color.Red))
             .setOngoing(false)
             .setAutoCancel(false)

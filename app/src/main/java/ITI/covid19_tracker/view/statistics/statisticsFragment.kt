@@ -1,108 +1,195 @@
 package ITI.covid19_tracker.view.statistics
 
+import ITI.covid19_tracker.Network.newtwork
+import ITI.covid19_tracker.R
+import ITI.covid19_tracker.db.FetchingAPIData.StatisticData.FetchStatisticData
+import ITI.covid19_tracker.model.statisticModel
+import ITI.covid19_tracker.viewmodel.StatisticViewModel
+import android.content.Context
+import android.graphics.Color
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-
-import ITI.covid19_tracker.R
-import ITI.covid19_tracker.db.FetchingAPIData.StatisticData.FetchStatisticData
-import ITI.covid19_tracker.model.Country
-import ITI.covid19_tracker.model.statisticModel
-import ITI.covid19_tracker.view.MainActivity
-import ITI.covid19_tracker.viewmodel.MainViewModel
-import ITI.covid19_tracker.viewmodel.StatisticViewModel
-import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
-import com.github.mikephil.charting.charts.BarChart
-import com.github.mikephil.charting.data.BarData
-import com.github.mikephil.charting.data.BarDataSet
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+import com.github.mikephil.charting.charts.PieChart
 import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.PieData
+import com.github.mikephil.charting.data.PieDataSet
+import com.github.mikephil.charting.formatter.PercentFormatter
+import com.github.mikephil.charting.utils.ColorTemplate
+
 
 class statisticsFragment : Fragment() {
 
-    lateinit var timeOftatistic : TextView
-    lateinit var barChart: BarChart
+    lateinit var Static_context : Context
+    lateinit var timeOftatistic: TextView
+    lateinit var barChart: PieChart
     var ViewModel: StatisticViewModel? = null
     lateinit var fetchStatisticData: FetchStatisticData
+
+    val checkNetworkConnection = newtwork()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_statistics, container, false)
+        var SwipeRefreshBarChart: SwipeRefreshLayout = view.findViewById(R.id.SwipeRefreshBarChart)
 
-        timeOftatistic  = view.findViewById(R.id.timeOftatistic)
+        Static_context = this!!.context!!
+        timeOftatistic = view.findViewById(R.id.timeOftatistic)
         fetchStatisticData = FetchStatisticData()
         ViewModel = ViewModelProviders.of(this).get(StatisticViewModel::class.java)
 
-     //   FetchStaticAPIData()
+        //   FetchStaticAPIData()
         ViewModel?.getAllData()?.observe(this, Observer<List<statisticModel>> { this.setData(it) })
 
         barChart = view.findViewById(R.id.BarChartId)
 
 
+        SwipeRefreshBarChart.setOnRefreshListener {
+            Log.i("tag", "FirstSCROLLING")
+            FetchStaticAPIData()
+            SwipeRefreshBarChart.setRefreshing(false);
 
+
+        }
         return view
     }
 
     private fun setData(it: List<statisticModel>?) {
 
+        val colors: ArrayList<Int> = ArrayList()
+
+        for (c in ColorTemplate.VORDIPLOM_COLORS) colors.add(c)
+
+        for (c in ColorTemplate.COLORFUL_COLORS) colors.add(c)
+
+        for (c in ColorTemplate.JOYFUL_COLORS) colors.add(c)
+
+        for (c in ColorTemplate.LIBERTY_COLORS) colors.add(c)
+
+        for (c in ColorTemplate.PASTEL_COLORS) colors.add(c)
+
+        colors.add(ColorTemplate.getHoloBlue())
+
+
         var count = it?.size
-        var barEntities: ArrayList<BarEntry> = ArrayList<BarEntry>()
+        var barEntities  = mutableListOf<Entry>()
 
         if (it != null) {
-            if(it.size>0) {
+            if (it.size > 0) {
 
-                barEntities.add(BarEntry(it?.get(0)?.new_cases?.replace(",","",false).toFloat()!!, 0))
-                barEntities.add(BarEntry(it?.get(0)?.new_deaths?.replace(",","",false).toFloat()!!, 1))
-                barEntities.add(BarEntry(it?.get(0)?.total_cases?.replace(",","",false).toFloat()!!, 2))
-                barEntities.add(BarEntry(it?.get(0)?.total_deaths?.replace(",","",false).toFloat()!!, 3))
-                barEntities.add(BarEntry(it?.get(0)?.total_recovered?.replace(",","",false).toFloat()!!, 4))
+                barEntities.add(
+                    BarEntry(
+                        it?.get(0)?.new_cases?.replace(",", "", false).toFloat()!!,
+                        0
+                    )
+                )
 
-                var barSet: BarDataSet = BarDataSet(barEntities, "Number")
-                barSet.barSpacePercent=1f
-                val arr = ArrayList<String>()
+                barEntities.add(
+                    BarEntry(
+                        it?.get(0)?.total_cases?.replace(
+                            ",",
+                            "",
+                            false
+                        ).toFloat()!!, 2
+                    )
+                )
+                barEntities.add(
+                    BarEntry(
+                        it?.get(0)?.new_deaths?.replace(
+                            ",",
+                            "",
+                            false
+                        ).toFloat()!!, 1
+                    )
+                )
+                barEntities.add(
+                    BarEntry(
+                        it?.get(0)?.total_deaths?.replace(
+                            ",",
+                            "",
+                            false
+                        ).toFloat()!!, 3
+                    )
+                )
+                barEntities.add(
+                    BarEntry(
+                        it?.get(0)?.total_recovered?.replace(
+                            ",",
+                            "",
+                            false
+                        ).toFloat()!!, 4
+                    )
+                )
+
+                var dataSet : PieDataSet= PieDataSet(barEntities, "Number")
+                //dataSet.barSpacePercent = 1f
+                dataSet.setColors(colors)
+
+                val arr = mutableListOf<String>()
                 arr.add("New Cases")
-                arr.add("New Death")
                 arr.add("Total Cases")
+                arr.add("New Death")
                 arr.add("Toltal Deaths")
                 arr.add("Total Recoverd")
 
-                var bar: BarData = BarData(arr, barSet)
-                bar.groupSpace=1f
+                var bar: PieData = PieData(arr, dataSet)
+                // bar.groupSpace = 1f
                 barChart.data = bar
+                //   barChart.defaultValueFormatter(PercentFormatter(chart));
+                barChart.setCenterTextSize(11f);
+                barChart.setCenterTextColor(Color.WHITE);
+
+                // undo all highlights
+                barChart.highlightValues(null);
                 barChart.setTouchEnabled(true)
-             //   barChart.setOnTouchListener { v, event ->  }
-                barChart.isDragEnabled = true
+                barChart.setBackgroundColor(1)
+                //   barChart.setOnTouchListener { v, event ->  }
                 barChart.setDescription("World Total Stat")
 
-barChart.invalidate()
-                timeOftatistic.setText( it?.get(0)?.statistic_taken_at)
+                barChart.invalidate()
+                timeOftatistic.setText(it?.get(0)?.statistic_taken_at)
+            }else {
+                Log.i("tag", "ERRRRRRRRRRRRRRRRRRRRRRRRRROR < 0")
             }
-            Log.i("tag","ERRRRRRRRRRRRRRRRRRRRRRRRRROR ")
+        }else {
+            Log.i("tag", "NUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUULLLLLLLL = null")
         }
-        Log.i("tag","ERRRRRRRRRRRRRRRRRRRRRRRRRROR RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR")
     }
 
-    /*fun FetchStaticAPIData() {
+    fun FetchStaticAPIData() {
         Log.i("tag", "Fetching data")
-        if (MainActivity.checkInternetConnection()) {
+        if (checkInternetConnection()) {
             fetchStatisticData.getDetails(ViewModel)
         } else {
             Toast.makeText(
-                MainActivity.mcontext,
+                Static_context,
                 "Please Connect to the Internet to Get Latest Data",
                 Toast.LENGTH_LONG
             )
                 .show();
             Log.i("tag", "Please Check Your Internet Connection to Get Latest Data")
         }
-    }*/
+    }
+
+    fun checkInternetConnection(): Boolean {
+        return checkNetworkConnection.hasInternetConnection(Static_context)
+    }
+    override fun onAttach(context: Context) {
+        super.onAttach(context)
+        Static_context = context
+    }
 
 }
 
