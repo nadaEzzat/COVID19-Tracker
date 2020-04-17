@@ -1,5 +1,6 @@
 package ITI.covid19_tracker.db.FetchingAPIData
 
+import ITI.covid19_tracker.Network.newtwork
 import ITI.covid19_tracker.SplashScreen
 import ITI.covid19_tracker.model.Country
 import ITI.covid19_tracker.model.Model
@@ -26,12 +27,15 @@ class FetchData() : AppCompatActivity(){//, FetchCompleteListener {
 
     private var ViewModel: MainViewModel? = null
 
+    val checkNetworkConnection = newtwork()
+
     fun checkInternetConnection(): Boolean {
-        return SplashScreen.checkNetworkConnection.hasInternetConnection(SplashScreen.mContext)
+        return checkNetworkConnection.hasInternetConnection(SplashScreen.mContext)
     }
 
     fun getDetails(viewmodel: MainViewModel? ) {
         if (checkInternetConnection()) {
+
             ViewModel = viewmodel
 
             CountryDetailsJSON = JSONObject()
@@ -72,22 +76,22 @@ class FetchData() : AppCompatActivity(){//, FetchCompleteListener {
                         // Delete previuos data
                         //ViewModel?.delete()
                         val arr : ArrayList<Country> = ArrayList<Country>()
-                        val weatherResponse = response.body()!!
+                        val Response = response.body()!!
 
-                        var count = weatherResponse.countries_stat?.size
+                        var count = Response.countries_stat?.size
                         Log.i("tag", " Count : $count")
                         if (count != null) {
                             for (i in 0..(count - 1)) {
                                 var country_name =
-                                    weatherResponse.countries_stat?.get(i)!!.country_name
-                                var cases = weatherResponse.countries_stat?.get(i)!!.cases
-                                var new_cases = weatherResponse.countries_stat?.get(i)!!.new_cases
+                                    Response.countries_stat?.get(i)!!.country_name
+                                var cases = Response.countries_stat?.get(i)!!.cases
+                                var new_cases = Response.countries_stat?.get(i)!!.new_cases
                                 var total_recovered =
-                                    weatherResponse.countries_stat?.get(i)!!.total_recovered
-                                var deaths = weatherResponse.countries_stat?.get(i)!!.deaths
-                                var new_deaths = weatherResponse.countries_stat?.get(i)!!.new_deaths
+                                    Response.countries_stat?.get(i)!!.total_recovered
+                                var deaths = Response.countries_stat?.get(i)!!.deaths
+                                var new_deaths = Response.countries_stat?.get(i)!!.new_deaths
                                 var total_cases_per_1m_population =
-                                    weatherResponse.countries_stat?.get(i)!!.total_cases_per_1m_population
+                                    Response.countries_stat?.get(i)!!.total_cases_per_1m_population
                                 val country = Country(
                                     // 0,
                                     country_name,

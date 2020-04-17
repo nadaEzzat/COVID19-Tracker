@@ -10,9 +10,13 @@ import ITI.covid19_tracker.model.statisticModel
 import ITI.covid19_tracker.view.MainActivity
 import ITI.covid19_tracker.viewmodel.MainViewModel
 import ITI.covid19_tracker.viewmodel.StatisticViewModel
+import android.content.Context
 import android.net.Network
+import android.os.Bundle
+import android.os.PersistableBundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -26,14 +30,14 @@ import java.io.IOException
 
 class FetchStatisticData () : AppCompatActivity() {//, FetchCompleteListener {
 
+   //lateinit var context : Context
     private lateinit var CountryDetailsJSON: JSONObject
     var checkNetworkConnection = newtwork()
     private var ViewModel: StatisticViewModel? = null
 
     fun checkInternetConnection(): Boolean {
-        return SplashScreen.checkNetworkConnection.hasInternetConnection(SplashScreen.mContext)
+        return checkNetworkConnection.hasInternetConnection(SplashScreen.mContext)
     }
-
 
     fun getDetails(viewmodel: StatisticViewModel?) {
         if (checkInternetConnection()) {
@@ -80,18 +84,18 @@ class FetchStatisticData () : AppCompatActivity() {//, FetchCompleteListener {
                     if (response.code() == 200) {
                         // Delete previuos data
                         //ViewModel?.delete()
-                        val weatherResponse = response.body()!!
-                        // var count = weatherResponse.countries_stat?.size
+                        val Response = response.body()!!
+                        // var count = Response.countries_stat?.size
                         var new_cases =
-                            weatherResponse.new_cases
-                        var total_cases = weatherResponse.total_cases
+                            Response.new_cases
+                        var total_cases = Response.total_cases
                         var new_deaths =
-                            weatherResponse.new_deaths
+                            Response.new_deaths
                         var total_deaths =
-                            weatherResponse.total_deaths
-                        var statistic_taken_at = weatherResponse.statistic_taken_at
+                            Response.total_deaths
+                        var statistic_taken_at = Response.statistic_taken_at
                         var total_recovered =
-                            weatherResponse.total_recovered
+                            Response.total_recovered
                         val statisticModel = statisticModel(
                             // 0,
                             new_cases,

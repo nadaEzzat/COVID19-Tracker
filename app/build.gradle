@@ -71,7 +71,7 @@ dependencies {
     implementation "androidx.work:work-runtime-ktx:2.3.4"
 
     // optional - RxJava2 support
-    implementation "androidx.work:work-rxjava2:2.3.4"
+  //  implementation "androidx.work:work-rxjava2:2.3.4"
 
    // implementation "androidx.work:work-gcm:$work_version"
    // implementation "android.arch.work:work-runtime:1.0.0"

@@ -16,8 +16,6 @@ import androidx.room.TypeConverters
     abstract fun countryDao(): CountryDao
     abstract fun statisticDao() : statisticDao
 
-
-
     companion object {
         @Volatile
         private var INSTANCE: CountryDatabase? = null

@@ -38,7 +38,6 @@ class MainActivity : Fragment() {
     lateinit var adapter: MainAdapter
     private var PRIVATE_MODE = 0
     private val PREF_NAME = "work-manager"
-
     var sharedPref: SharedPreferences? = null
 
 
@@ -88,7 +87,7 @@ class MainActivity : Fragment() {
 
         // Search
         searchBtn.setOnClickListener {
-            setWorkManager()
+            // setWorkManager()
 
             var country: String = searchBox.text.toString()
             if (country.trim().equals("")) {
@@ -106,7 +105,12 @@ class MainActivity : Fragment() {
             Log.i("tag", "FirstSCROLLING")
             FetchDataAPIData()
             SwipeRefresh.setRefreshing(false);
-
+            Toast.makeText(
+                mcontext,
+                "Loading Data...",
+                Toast.LENGTH_SHORT
+            )
+                .show();
 
         }
         return view
@@ -124,41 +128,6 @@ class MainActivity : Fragment() {
     private fun getDataFomDataBase() {
         ViewModel?.getAllData()
             ?.observe(this, Observer<List<Country>> { this.setData(it) })
-    }
-
-    private fun setWorkManager() {
-
-        var time = sharedPref?.getInt("Time", 15)?.toLong()
-        var unit = sharedPref?.getString("Unit", "MINUTES").toString()
-        //  var timeunit = TimeUnit.valueOf(unit)
-
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
-        var test = TimeUnit.MINUTES
-
-        if (unit.equals("MINUTES")) {
-
-            test = TimeUnit.MINUTES
-
-        } else if (unit.equals("DAYS")) {
-
-            test = TimeUnit.DAYS
-
-        } else if (unit.equals("HOURS")) {
-
-            test = TimeUnit.HOURS
-
-        }
-
-
-        val workerInstance = PeriodicWorkRequest.Builder(
-            UploadWorker::class.java, time!!, test
-        )
-            .setConstraints(constraints)
-            .build()
-
-        WorkManager.getInstance(requireContext()).enqueue(workerInstance)
     }
 
     private fun setData(country: List<Country>?) {
@@ -218,6 +187,41 @@ class MainActivity : Fragment() {
             return checkNetworkConnection.hasInternetConnection(mcontext)
         }
     }
+    private fun setWorkManager() {
+
+        var time = sharedPref?.getInt("Time", 15)?.toLong()
+        var unit = sharedPref?.getString("Unit", "MINUTES").toString()
+        //  var timeunit = TimeUnit.valueOf(unit)
+
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+        var test = TimeUnit.MINUTES
+
+        if (unit.equals("MINUTES")) {
+
+            test = TimeUnit.MINUTES
+
+        } else if (unit.equals("DAYS")) {
+
+            test = TimeUnit.DAYS
+
+        } else if (unit.equals("HOURS")) {
+
+            test = TimeUnit.HOURS
+
+        }
+
+
+        val workerInstance = PeriodicWorkRequest.Builder(
+            UploadWorker::class.java, time!!, test
+        )
+            .setConstraints(constraints)
+            .build()
+
+        WorkManager.getInstance(requireContext()).enqueue(workerInstance)
+    }
+
 
 
 }

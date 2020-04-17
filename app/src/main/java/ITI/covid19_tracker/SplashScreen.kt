@@ -31,7 +31,6 @@ class SplashScreen : AppCompatActivity()  {
     var sharedPref: SharedPreferences? = null
     private var PRIVATE_MODE = 0
     private val PREF_NAME = "work-manager"
-
     private val SPLASH_TIME_OUT:Long = 3000 // 1 sec
 
     var staticViewModel: StatisticViewModel? = null
@@ -46,21 +45,15 @@ class SplashScreen : AppCompatActivity()  {
         mContext = applicationContext
         ViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
         staticViewModel = ViewModelProviders.of(this).get(StatisticViewModel::class.java)
-
         sharedPref=  applicationContext.getSharedPreferences(PREF_NAME, PRIVATE_MODE)
 
         setWorkManager()
-        FetchStaticAPIData()
+        FetchStatisticAPIData()
 
         val animation = AnimationUtils.loadAnimation(this, R.anim.zoom_in)
         linearId.startAnimation(animation)
         Handler().postDelayed({
-            // This method will be executed once the timer is over
-            // Start your app main activity
-
             startActivity(Intent(this, ActivityTab::class.java))
-
-            // close this activity
             finish()
         }, SPLASH_TIME_OUT)
     }
@@ -68,11 +61,8 @@ class SplashScreen : AppCompatActivity()  {
 
         var time = sharedPref?.getInt("Time", 15)?.toLong()
         var unit = sharedPref?.getString("Unit", "MINUTES").toString()
-        //  var timeunit = TimeUnit.valueOf(unit)
-
 
         var test = TimeUnit.MINUTES
-
         if (unit.equals("MINUTES")) {
 
             test = TimeUnit.MINUTES
@@ -87,7 +77,7 @@ class SplashScreen : AppCompatActivity()  {
 
         }
 
-Log.i("tag","WORK MANAGER")
+        Log.i("tag","WORK MANAGER")
         Log.i("tag","" + time + "")
 
         val constraints = Constraints.Builder()
@@ -122,14 +112,13 @@ Log.i("tag","WORK MANAGER")
                     Toast.LENGTH_LONG
                 )
                     .show();
-                Log.i("tag", "Please Check Your Internet Connection to Get Latest Data")
-            }
+                }
         }
         fun checkInternetConnection(): Boolean {
             return checkNetworkConnection.hasInternetConnection(mContext)
         }
     }
-    fun FetchStaticAPIData() {
+    fun FetchStatisticAPIData() {
         Log.i("tag", "Fetching Static data")
         if (checkInternetConnection()) {
             fetchStatisticData.getDetails(staticViewModel)

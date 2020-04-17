@@ -49,7 +49,6 @@ class settingsMain2Activity : AppCompatActivity() {
 
             spinner.setSelection(1)
 
-
         }
 
 

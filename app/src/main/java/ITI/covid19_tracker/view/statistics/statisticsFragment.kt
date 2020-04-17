@@ -25,9 +25,11 @@ import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
 import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
+import com.google.android.material.snackbar.Snackbar
 
 
 class statisticsFragment : Fragment() {
+
 
     lateinit var Static_context : Context
     lateinit var timeOftatistic: TextView
@@ -141,7 +143,7 @@ class statisticsFragment : Fragment() {
                 arr.add("New Cases")
                 arr.add("Total Cases")
                 arr.add("New Death")
-                arr.add("Toltal Deaths")
+                arr.add("Total Deaths")
                 arr.add("Total Recoverd")
 
                 var bar: PieData = PieData(arr, dataSet)
@@ -174,6 +176,14 @@ class statisticsFragment : Fragment() {
         Log.i("tag", "Fetching data")
         if (checkInternetConnection()) {
             fetchStatisticData.getDetails(ViewModel)
+            Toast.makeText(
+                Static_context,
+                "Loading Data...",
+                Toast.LENGTH_SHORT
+            )
+                .show();
+            barChart.invalidate()
+
         } else {
             Toast.makeText(
                 Static_context,

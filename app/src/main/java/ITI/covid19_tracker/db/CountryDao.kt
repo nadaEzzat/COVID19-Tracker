@@ -148,14 +148,8 @@ interface CountryDao {
 
         var Cases: String = getCases(country.country_name)
 
-        Log.i(
-            "tag",
-            "" + newCases + " " + country.new_cases + " " + newDeath + " " + country.new_deaths
-        )
 
-        Log.i("tag", "" + Cases.equals(country.cases) + "  " + Death.equals(country.deaths))
-        Log.i("tag", "" + Cases + "  " + country.cases + " " + Death + "  " + country.deaths)
-        if (!newCases.equals(country.new_cases) || !newDeath.equals(country.new_deaths) || !Cases.equals(country.cases) || !Death.equals(country.deaths)
+        if (newCases.equals(country.new_cases) || newDeath.equals(country.new_deaths) || !Cases.equals(country.cases) || !Death.equals(country.deaths)
         ) {
 
             Log.i("tag", "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFfire")
@@ -168,7 +162,6 @@ interface CountryDao {
         }
 
     }
-
 
     @Query("SELECT  new_deaths from Country_table WHERE country_name = :countryname")
     fun getNewDeaths(countryname: String): String
@@ -200,9 +193,6 @@ interface CountryDao {
             "ITI.covid19_tracker.view.Tab.ActivityTab"
         )
         notifyIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-
-        //164 -> 178
-        //17,756 -> 18,056 spain
 
         val notifyPendingIntent = PendingIntent.getActivity(
             SplashScreen.mContext,
