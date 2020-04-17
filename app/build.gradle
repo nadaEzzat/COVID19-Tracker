@@ -76,7 +76,7 @@ dependencies {
    // implementation "androidx.work:work-gcm:$work_version"
    // implementation "android.arch.work:work-runtime:1.0.0"
     dependencies {
-        def work_version = "1.0.0-alpha04"
+        def work_version = "1.0.0-alpha06"
 
         implementation "android.arch.work:work-runtime-ktx:$work_version"
     }

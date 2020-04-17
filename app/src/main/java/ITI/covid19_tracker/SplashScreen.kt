@@ -70,9 +70,7 @@ class SplashScreen : AppCompatActivity()  {
         var unit = sharedPref?.getString("Unit", "MINUTES").toString()
         //  var timeunit = TimeUnit.valueOf(unit)
 
-        val constraints = Constraints.Builder()
-            .setRequiredNetworkType(NetworkType.CONNECTED)
-            .build()
+
         var test = TimeUnit.MINUTES
 
         if (unit.equals("MINUTES")) {
@@ -91,6 +89,11 @@ class SplashScreen : AppCompatActivity()  {
 
 Log.i("tag","WORK MANAGER")
         Log.i("tag","" + time + "")
+
+        val constraints = Constraints.Builder()
+            .setRequiredNetworkType(NetworkType.CONNECTED)
+            .build()
+
         val workerInstance = PeriodicWorkRequest.Builder(
             UploadWorker::class.java, time!!, test
         )
