@@ -149,7 +149,7 @@ interface CountryDao {
         var Cases: String = getCases(country.country_name)
 
 
-        if (newCases.equals(country.new_cases) || newDeath.equals(country.new_deaths) || !Cases.equals(country.cases) || !Death.equals(country.deaths)
+        if (!newCases.equals(country.new_cases) || !newDeath.equals(country.new_deaths) || !Cases.equals(country.cases) || !Death.equals(country.deaths)
         ) {
 
             Log.i("tag", "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFfire")
