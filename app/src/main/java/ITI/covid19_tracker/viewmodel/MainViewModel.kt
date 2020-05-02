@@ -13,7 +13,6 @@ class MainViewModel (application: Application) : AndroidViewModel(application) {
 
     fun setCountry(country: Country) { repository.setCountry(country)}
 
-
     fun setALLCountry(country: ArrayList<Country>) { repository.setALLCountry(country)}
 
     fun delete() { repository.delete()}

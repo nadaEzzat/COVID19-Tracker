@@ -4,6 +4,7 @@ import ITI.covid19_tracker.R
 import ITI.covid19_tracker.view.settings.settingsMain2Activity
 import ITI.covid19_tracker.view.statistics.statisticsFragment
 import ITI.covid19_tracker.view.MainActivity
+import ITI.covid19_tracker.view.instractions.Instractions
 import android.content.Intent
 import android.os.Bundle
 import android.view.Menu
@@ -35,7 +36,11 @@ class ActivityTab : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
 
-        startActivity(Intent(this, settingsMain2Activity::class.java))
-        return super.onOptionsItemSelected(item)
+        if(item.itemId == R.id.action_settings){
+            startActivity(Intent(this, settingsMain2Activity::class.java))
+        }else if(item.itemId == R.id.action_instructions) {
+            startActivity(Intent(this, Instractions::class.java))
+        }
+            return super.onOptionsItemSelected(item)
     }
 }

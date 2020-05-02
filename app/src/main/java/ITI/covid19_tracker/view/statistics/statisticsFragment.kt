@@ -23,15 +23,13 @@ import com.github.mikephil.charting.data.BarEntry
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.PieData
 import com.github.mikephil.charting.data.PieDataSet
-import com.github.mikephil.charting.formatter.PercentFormatter
 import com.github.mikephil.charting.utils.ColorTemplate
-import com.google.android.material.snackbar.Snackbar
 
 
 class statisticsFragment : Fragment() {
 
 
-    lateinit var Static_context : Context
+    lateinit var Static_context: Context
     lateinit var timeOftatistic: TextView
     lateinit var barChart: PieChart
     var ViewModel: StatisticViewModel? = null
@@ -86,7 +84,7 @@ class statisticsFragment : Fragment() {
 
 
         var count = it?.size
-        var barEntities  = mutableListOf<Entry>()
+        var barEntities = mutableListOf<Entry>()
 
         if (it != null) {
             if (it.size > 0) {
@@ -135,7 +133,7 @@ class statisticsFragment : Fragment() {
                     )
                 )
 
-                var dataSet : PieDataSet= PieDataSet(barEntities, "Number")
+                var dataSet: PieDataSet = PieDataSet(barEntities, "Number")
                 //dataSet.barSpacePercent = 1f
                 dataSet.setColors(colors)
 
@@ -158,16 +156,16 @@ class statisticsFragment : Fragment() {
                 barChart.setTouchEnabled(true)
                 barChart.setBackgroundColor(1)
                 //   barChart.setOnTouchListener { v, event ->  }
-                barChart.setDescription("World Total Stat")
+                //  barChart.setDescription("World Total Stat")
                 barChart.setDescriptionTextSize(22f)
 
 
                 barChart.invalidate()
                 timeOftatistic.setText(it?.get(0)?.statistic_taken_at)
-            }else {
+            } else {
                 Log.i("tag", "Count < 0")
             }
-        }else {
+        } else {
             Log.i("tag", "NUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUULLLLLLLL = null")
         }
     }
@@ -198,6 +196,7 @@ class statisticsFragment : Fragment() {
     fun checkInternetConnection(): Boolean {
         return checkNetworkConnection.hasInternetConnection(Static_context)
     }
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         Static_context = context

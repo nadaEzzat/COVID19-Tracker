@@ -71,7 +71,7 @@ class MainActivity : Fragment() {
         //setWorkManager()
 
         getDataFomDataBase()
-        // messageViewModel?.getMessages()?.observe(this, Observer<List<Country>> { this.renderMessges(it) })
+        // ViewModel?.getMessages()?.observe(this, Observer<List<Country>> { this.renderMessges(it) })
 
         searchBox.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}

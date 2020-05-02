@@ -10,6 +10,7 @@ import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.lifecycle.LiveData
 import androidx.room.*
+import io.reactivex.Maybe
 import java.security.SecureRandom
 import java.util.*
 import kotlin.collections.ArrayList
@@ -21,10 +22,10 @@ interface CountryDao {
 //ORDER BY cases DESC
 
     @Query("SELECT * FROM Country_table ")
-    fun getAll(): LiveData<List<Country>>
+    fun getAll(): Maybe<LiveData<List<Country>>>
 
     @Query("SELECT * FROM Country_table WHERE country_name LIKE '%' || :name || '%'")
-    fun search(name: String): LiveData<List<Country>>
+    fun search(name: String): Maybe<LiveData<List<Country>>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(country: Country): Long
@@ -56,20 +57,10 @@ interface CountryDao {
     @Transaction
     fun addCountry(country: Country) {
         var flag: Long = insert(country)
-        Log.i("tag", "INSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSERT :  " + flag)
 
         if (flag == -1.toLong()) {
             checkSub(country)
-            Log.i("tag", "BEFORE  Cases " + getCases(country.country_name))
-            Log.i("tag", "BEFORE  Cases " + country.cases)
-            Log.i("tag", "---------------------------")
-            Log.i("tag", "BEFORE  newCAses " + getNewCases(country.country_name))
-            Log.i("tag", "BEFORE  newCases " + country.new_cases)
-            Log.i("tag", "---------------------------")
-            Log.i("tag", "BEFORE  newDeath " + getNewDeaths(country.country_name))
-            Log.i("tag", "BEFORE  newDeath " + country.new_deaths)
-            Log.i("tag", "---------------------------")
-            var ip: Int = updateCountry(
+           var ip: Int = updateCountry(
                 country.cases,
                 country.new_cases,
                 country.deaths,
@@ -79,16 +70,7 @@ interface CountryDao {
                 country.country_name
             )
         //    updateCases(country.country_name, country.cases)
-            Log.i("tag", "AFTER  Cases " + getCases(country.country_name))
-            Log.i("tag", "BEFORE  newDeath " + getNewDeaths(country.country_name))
-            Log.i("tag", "BEFORE  newCases " + country.new_cases)
-
-            Log.i(
-                "tag",
-                "UPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPPATE   :  " + ip
-            )
-            Log.i("tag", "---------------------------")
-        }
+          }
     }
 
     @Transaction
@@ -97,7 +79,6 @@ interface CountryDao {
         for (i in (1..country.size-1)) {
 
             var flag: Long = insert(country.get(i))
-            Log.i("tag", "INSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSERT :  " + flag)
 
             if (flag == -1.toLong()) {
                 checkSub(country.get(i))
@@ -113,8 +94,6 @@ interface CountryDao {
                 )
                 //    updateCases(country.country_name, country.cases)
 
-                Log.i("tag", "UPDATE   :  " + ip)
-                Log.i("tag", "---------------------------")
             }
         }
     }
@@ -149,7 +128,7 @@ interface CountryDao {
         var Cases: String = getCases(country.country_name)
 
 
-        if (!newCases.equals(country.new_cases) || !newDeath.equals(country.new_deaths) || !Cases.equals(country.cases) || !Death.equals(country.deaths)
+        if (newCases.equals(country.new_cases) || newDeath.equals(country.new_deaths) || !Cases.equals(country.cases) || !Death.equals(country.deaths)
         ) {
 
             Log.i("tag", "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFfire")
