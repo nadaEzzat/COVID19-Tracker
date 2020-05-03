@@ -24,6 +24,6 @@ interface statisticDao {
 
         var l : Long = insert(country)
 
-        Log.i("tag","DDDDDDDDDDDDDDDDDDDDONNNNNNNNNNNNNNNNNNNNNNNNNNNNE   + "+l)
+      //  Log.i("tag","DDDDDDDDDDDDDDDDDDDDONNNNNNNNNNNNNNNNNNNNNNNNNNNNE   + "+l)
     }
 }

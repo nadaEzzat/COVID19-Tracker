@@ -23,7 +23,7 @@ class ActivityTab : AppCompatActivity() {
         val adapter = ViewPagerAdapter(supportFragmentManager)
 
         adapter.addFragment(MainActivity(), "Countries")
-        adapter.addFragment(statisticsFragment(), "Statistics")
+        adapter.addFragment(statisticsFragment(), "World Stat")
         viewPager.adapter = adapter
         tabs.setupWithViewPager(viewPager)
     }

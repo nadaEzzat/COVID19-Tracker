@@ -57,7 +57,7 @@ class statisticsFragment : Fragment() {
 
 
         SwipeRefreshBarChart.setOnRefreshListener {
-            Log.i("tag", "FirstSCROLLING")
+
             FetchStaticAPIData()
             SwipeRefreshBarChart.setRefreshing(false);
 

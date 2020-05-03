@@ -7,11 +7,9 @@ import androidx.lifecycle.AndroidViewModel
 
 class MainViewModel (application: Application) : AndroidViewModel(application) {
 
-    private var repository:CountryRepository = CountryRepository(application)
+    private var repository : CountryRepository = CountryRepository(application)
 
     fun getAllData() = repository.getAllData()
-
-    fun setCountry(country: Country) { repository.setCountry(country)}
 
     fun setALLCountry(country: ArrayList<Country>) { repository.setALLCountry(country)}
 
@@ -21,7 +19,13 @@ class MainViewModel (application: Application) : AndroidViewModel(application) {
 
     fun updateSubCountry(countryname: String?, sub: String) = repository.updateSubCountry(countryname ,sub)
 
+
+    // fun setCountry(country: Country) { repository.setCountry(country)}
+
+    /*
     fun checkSubscribtion(country: Country) :Boolean {
         return  repository.checkSubscribtion(country)
     }
+
+     */
 }

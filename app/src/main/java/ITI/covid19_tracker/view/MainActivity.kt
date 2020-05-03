@@ -41,6 +41,11 @@ class MainActivity : Fragment() {
     var sharedPref: SharedPreferences? = null
 
 
+    lateinit var searchBtn: ImageButton
+    lateinit var searchBox: TextView
+    lateinit var SwipeRefresh: SwipeRefreshLayout
+    lateinit var countryRecyclerView: RecyclerView
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         mcontext = context
@@ -51,18 +56,11 @@ class MainActivity : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
-        sharedPref = mcontext.getSharedPreferences(PREF_NAME, PRIVATE_MODE)
-
-        // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.activity_main, container, false)
-        var searchBtn: ImageButton = view.findViewById(R.id.searchButton)
-        var searchBox: TextView = view.findViewById(R.id.searchBox)
-        var SwipeRefresh: SwipeRefreshLayout = view.findViewById(R.id.SwipeRefresh)
-        var countryRecyclerView: RecyclerView = view.findViewById(R.id.countryRecyclerView)
 
-        ViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
+
+        setUoComponents(view)
 
         //Get API Data
         //  FetchDataAPIData()
@@ -71,7 +69,6 @@ class MainActivity : Fragment() {
         //setWorkManager()
 
         getDataFomDataBase()
-        // ViewModel?.getMessages()?.observe(this, Observer<List<Country>> { this.renderMessges(it) })
 
         searchBox.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(charSequence: CharSequence, i: Int, i1: Int, i2: Int) {}
@@ -87,41 +84,39 @@ class MainActivity : Fragment() {
 
         // Search
         searchBtn.setOnClickListener {
-            // setWorkManager()
 
             var country: String = searchBox.text.toString()
+
             if (country.trim().equals("")) {
-                Toast.makeText(requireContext(), "Please Enter Countery Name", Toast.LENGTH_LONG)
-                    .show()
+
+                Toast.makeText(requireContext(), "Please Enter Countery Name", Toast.LENGTH_LONG).show()
+
             } else {
-                Log.i("tag", "SearchButton")
-                ViewModel?.search(country)
-                    ?.observe(this, Observer<List<Country>> { this.renderSearch(it) })
+
+                ViewModel?.search(country)?.observe(this, Observer<List<Country>> { this.renderSearch(it) })
+
             }
         }
 
         // pull-to-refresh
         SwipeRefresh.setOnRefreshListener {
-            Log.i("tag", "FirstSCROLLING")
             FetchDataAPIData()
             SwipeRefresh.setRefreshing(false);
-            Toast.makeText(
-                mcontext,
-                "Loading Data...",
-                Toast.LENGTH_SHORT
-            )
-                .show();
+            Toast.makeText(mcontext, "Loading Data...", Toast.LENGTH_SHORT).show();
 
         }
         return view
     }
 
+    private fun setUoComponents(view: View) {
+        searchBtn = view.findViewById(R.id.searchButton)
+        searchBox = view.findViewById(R.id.searchBox)
+        SwipeRefresh = view.findViewById(R.id.SwipeRefresh)
+        countryRecyclerView = view.findViewById(R.id.countryRecyclerView)
 
-    //check network connection
+        ViewModel = ViewModelProviders.of(this).get(MainViewModel::class.java)
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        //  setContentView(R.layout.activity_main)
+        sharedPref = mcontext.getSharedPreferences(PREF_NAME, PRIVATE_MODE)
 
     }
 
@@ -164,29 +159,27 @@ class MainActivity : Fragment() {
 
     companion object {
         lateinit var mcontext: Context
-        // lateinit var sharedPref: SharedPreferences
         var ViewModel: MainViewModel? = null
         var fetchData = FetchData()
         val checkNetworkConnection = newtwork()
+
         fun FetchDataAPIData() {
-            Log.i("tag", "Fetching data")
+
             if (checkInternetConnection()) {
+
                 fetchData.getDetails(ViewModel)
+
             } else {
-                Toast.makeText(
-                    mcontext,
-                    "Please Connect to the Internet to Get Latest Data",
-                    Toast.LENGTH_LONG
-                )
-                    .show();
-                Log.i("tag", "Please Check Your Internet Connection to Get Latest Data")
-            }
+                Toast.makeText(mcontext, "Please Connect to the Internet to Get Latest Data", Toast.LENGTH_LONG).show();
+           }
+
         }
 
         fun checkInternetConnection(): Boolean {
             return checkNetworkConnection.hasInternetConnection(mcontext)
         }
     }
+
     private fun setWorkManager() {
 
         var time = sharedPref?.getInt("Time", 15)?.toLong()
@@ -221,7 +214,6 @@ class MainActivity : Fragment() {
 
         WorkManager.getInstance(requireContext()).enqueue(workerInstance)
     }
-
 
 
 }

@@ -10,6 +10,7 @@ import ITI.covid19_tracker.model.statisticModel
 import ITI.covid19_tracker.view.MainActivity
 import ITI.covid19_tracker.viewmodel.MainViewModel
 import ITI.covid19_tracker.viewmodel.StatisticViewModel
+import android.annotation.SuppressLint
 import android.content.Context
 import android.net.Network
 import android.os.Bundle
@@ -17,6 +18,9 @@ import android.os.PersistableBundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -25,6 +29,7 @@ import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 
@@ -39,6 +44,7 @@ class FetchStatisticData () : AppCompatActivity() {//, FetchCompleteListener {
         return checkNetworkConnection.hasInternetConnection(SplashScreen.mContext)
     }
 
+    @SuppressLint("CheckResult")
     fun getDetails(viewmodel: StatisticViewModel?) {
         if (checkInternetConnection()) {
 
@@ -67,63 +73,54 @@ class FetchStatisticData () : AppCompatActivity() {//, FetchCompleteListener {
             val retrofit = Retrofit.Builder()
                 .baseUrl("https://coronavirus-monitor.p.rapidapi.com/coronavirus/")
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(client)
                 .build()
 
             val D: APIStatistic = retrofit.create(APIStatistic::class.java)
 
-            var call: Call<st_Model> = D.getAllData()
-            Log.i("tag", "TESSSSSSSSSSSSSSSSSt StattTTTTTTistic")
-            call.enqueue(object : Callback<st_Model> {
+            var call: Observable<st_Model> = D.getAllData()
+            call.observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({response -> onResponse(response)}, {t -> onFailure(t) })
 
-                override fun onResponse(
-                    call: Call<st_Model>,
-                    response: retrofit2.Response<st_Model>
-                ) {
-                    Log.i("tag", "TESSSSSSSSSSSSSSSSSt StattTTTTTTistic 22222222222222222222")
-                    if (response.code() == 200) {
-                        // Delete previuos data
-                        //ViewModel?.delete()
-                        val Response = response.body()!!
-                        // var count = Response.countries_stat?.size
-                        var new_cases =
-                            Response.new_cases
-                        var total_cases = Response.total_cases
-                        var new_deaths =
-                            Response.new_deaths
-                        var total_deaths =
-                            Response.total_deaths
-                        var statistic_taken_at = Response.statistic_taken_at
-                        var total_recovered =
-                            Response.total_recovered
-                        val statisticModel = statisticModel(
-                            // 0,
-                            new_cases,
-                            new_deaths,
-                            total_recovered,
-                            total_deaths,
-                            total_cases,
-                            statistic_taken_at
-                        )
-                        // check if this country is subscribed or not
-                         Log.i("tag", "TESSSSSSSSSSSSSSSSSt StattTTTTTTistic  " + statisticModel.new_cases + "  " + statistic_taken_at)
-
-                        ViewModel?.setCountry(statisticModel)
-
-
-                    }
-                   // call.cancel()
-                }
-
-                override fun onFailure(call: Call<st_Model>, t: Throwable) {
-                    Log.i("tag", "Activity Failure $t")
-                    println("Activity Failure.")
-                    call.request()
-                }
-
-            })
-            Log.i("tag", "test3")
         }
+    }
+
+    private fun onFailure(t: Throwable?) {
+        Log.i("tag", "Activity Failure $t")
+        println("Activity Failure.")
+    }
+
+    private fun onResponse(response: st_Model?) {
+        // Delete previuos data
+        //ViewModel?.delete()
+        val Response = response!!
+        // var count = Response.countries_stat?.size
+        var new_cases =
+            Response.new_cases
+        var total_cases = Response.total_cases
+        var new_deaths =
+            Response.new_deaths
+        var total_deaths =
+            Response.total_deaths
+        var statistic_taken_at = Response.statistic_taken_at
+        var total_recovered =
+            Response.total_recovered
+        val statisticModel = statisticModel(
+            // 0,
+            new_cases,
+            new_deaths,
+            total_recovered,
+            total_deaths,
+            total_cases,
+            statistic_taken_at
+        )
+        // check if this country is subscribed or not
+        Log.i("tag", "TESSSSSSSSSSSSSSSSSt StattTTTTTTistic  " + statisticModel.new_cases + "  " + statistic_taken_at)
+
+        ViewModel?.setCountry(statisticModel)
+
     }
 }
 

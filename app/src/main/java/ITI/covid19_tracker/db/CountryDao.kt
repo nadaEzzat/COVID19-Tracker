@@ -19,13 +19,12 @@ import kotlin.coroutines.coroutineContext
 
 @Dao
 interface CountryDao {
-//ORDER BY cases DESC
 
     @Query("SELECT * FROM Country_table ")
-    fun getAll(): Maybe<LiveData<List<Country>>>
+    fun getAll(): LiveData<List<Country>>
 
     @Query("SELECT * FROM Country_table WHERE country_name LIKE '%' || :name || '%'")
-    fun search(name: String): Maybe<LiveData<List<Country>>>
+    fun search(name: String): LiveData<List<Country>>
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     fun insert(country: Country): Long
@@ -53,25 +52,6 @@ interface CountryDao {
 
     @Query("SELECT Subscribe from Country_table WHERE country_name = :countryname")
     fun getSubscribtion(countryname: String): String
-
-    @Transaction
-    fun addCountry(country: Country) {
-        var flag: Long = insert(country)
-
-        if (flag == -1.toLong()) {
-            checkSub(country)
-           var ip: Int = updateCountry(
-                country.cases,
-                country.new_cases,
-                country.deaths,
-                country.new_deaths,
-                country.total_cases_per_1m_population,
-                country.total_recovered,
-                country.country_name
-            )
-        //    updateCases(country.country_name, country.cases)
-          }
-    }
 
     @Transaction
     fun addALLCountry(country: ArrayList<Country>) {
@@ -102,23 +82,18 @@ interface CountryDao {
     @Transaction
     fun checkSub(country: Country): Boolean {
         var flag: String = getSubscribtion(country.country_name)
-        Log.i("tag", "SUBSCRIBTIO IN DAO : " + country.country_name + " " + flag)
         if (flag == null) {
-            //   Log.i("tag", "return null false")
             return false
         } else if (flag.equals("0")) {
-            // Log.i("tag", "return 0 false")
             return false
         } else {
             checkIfChange(country)
-            Log.i("tag", "return else true")
             return true
         }
     }
 
     @Transaction
     fun checkIfChange(country: Country) {
-        Log.i("tag", "FIRSTFireNotification")
         var newDeath: String = getNewDeaths(country.country_name)
 
         var newCases: String = getNewCases(country.country_name)
@@ -130,12 +105,8 @@ interface CountryDao {
 
         if (newCases.equals(country.new_cases) || newDeath.equals(country.new_deaths) || !Cases.equals(country.cases) || !Death.equals(country.deaths)
         ) {
-
-            Log.i("tag", "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFfire")
             var cases = "cases : " + Cases + " - > " + country.cases
             var dea = "Deaths : " + Death + " - > " + country.deaths
-
-            Log.i("tag", "FireNotification")
             Notif(country.country_name, cases, dea)
 
         }
@@ -199,4 +170,26 @@ interface CountryDao {
         }
         return sb.toString().toInt()
     }
+
+
+    /*
+    @Transaction
+    fun addCountry(country: Country) {
+        var flag: Long = insert(country)
+
+        if (flag == -1.toLong()) {
+            checkSub(country)
+           var ip: Int = updateCountry(
+                country.cases,
+                country.new_cases,
+                country.deaths,
+                country.new_deaths,
+                country.total_cases_per_1m_population,
+                country.total_recovered,
+                country.country_name
+            )
+        //    updateCases(country.country_name, country.cases)
+          }
+    }
+*/
 }

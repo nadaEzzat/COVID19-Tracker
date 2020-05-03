@@ -25,48 +25,65 @@ class CountryRepository(application: Application) : CoroutineScope {
     fun getAllData() = countryDao?.getAll()
 
 
-    fun search(countryname : String ) = countryDao?.search(countryname)
+    fun search(countryname: String) = countryDao?.search(countryname)
 
 
-    fun setCountry(countryname: Country) {
-        launch  { setCountryBG(countryname) }
-    }
-    private suspend fun setCountryBG(countryname: Country){
-        withContext(Dispatchers.IO){
-            countryDao?.addCountry(countryname)
-        }
-    }
-
-
-    fun updateSubCountry(name: String?, sub: String)
-    {
-        launch  { updateSubCountryBG(name,sub) }
-    }
-    private suspend fun updateSubCountryBG(countryname: String?, sub: String){
-        withContext(Dispatchers.IO){
-            countryDao?.updateSubCountry(countryname  , sub)
-        }
-    }
 
     fun setALLCountry(country: ArrayList<Country>) {
-        launch  { setALLCountryBG(country) }
+        launch { setALLCountryBG(country) }
     }
-    private suspend fun setALLCountryBG(country: ArrayList<Country>){
-        withContext(Dispatchers.IO){
+
+    private suspend fun setALLCountryBG(country: ArrayList<Country>) {
+        withContext(Dispatchers.IO) {
             countryDao?.addALLCountry(country)
         }
     }
 
 
+
+
     fun delete() {
-        launch  { deleteBG()}
+        launch { deleteBG() }
     }
 
-    private suspend fun deleteBG(){
-        withContext(Dispatchers.IO){
+    private suspend fun deleteBG() {
+        withContext(Dispatchers.IO) {
             countryDao?.deleteAll()
         }
     }
+
+
+    fun updateSubCountry(name: String?, sub: String) {
+        launch { updateSubCountryBG(name, sub) }
+    }
+
+    private suspend fun updateSubCountryBG(countryname: String?, sub: String) {
+        withContext(Dispatchers.IO) {
+            countryDao?.updateSubCountry(countryname, sub)
+        }
+    }
+
+
+/*
+    fun setCountry(countryname: Country) {
+        launch { setCountryBG(countryname) }
+    }
+     private suspend fun setCountryBG(countryname: Country) {
+        withContext(Dispatchers.IO) {
+            countryDao?.addCountry(countryname)
+        }
+    }
+
+*/
+    /*
+    private suspend fun checkSubscribtionB(country: Country): Boolean {
+        var r: Boolean = false
+        withContext(Dispatchers.IO) {
+            r = countryDao?.checkSub(country)!!
+        }
+        return r
+    }
+
 
     fun checkSubscribtion(country: Country) : Boolean
 {
@@ -75,16 +92,9 @@ class CountryRepository(application: Application) : CoroutineScope {
         r =  checkSubscribtionB(country)
     }
     return r
-}
-    private suspend fun checkSubscribtionB(country: Country)  : Boolean
+}*/
+    /*
     {
-        var r : Boolean = false
-        withContext(Dispatchers.IO){
-            r = countryDao?.checkSub(country)!!
-        }
-        return r
-    }
-    /*{
         countryDao?.search(countryname)
         //launch  { searchBG(countryname)}
     }

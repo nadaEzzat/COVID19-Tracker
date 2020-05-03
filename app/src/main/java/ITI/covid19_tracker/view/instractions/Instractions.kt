@@ -4,6 +4,7 @@ package ITI.covid19_tracker.view.instractions
 import ITI.covid19_tracker.Network.newtwork
 import ITI.covid19_tracker.R
 import ITI.covid19_tracker.db.getImageInstractions.InstractionsInterface
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.BitmapFactory
 import android.os.Bundle
@@ -12,10 +13,13 @@ import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
 import okhttp3.*
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 
@@ -52,6 +56,7 @@ class Instractions : AppCompatActivity() {
     }
 
 
+    @SuppressLint("CheckResult")
     fun getBitmapFrom() {
 
         if (checkInternetConnection()) {
@@ -77,52 +82,36 @@ class Instractions : AppCompatActivity() {
             val retrofit = Retrofit.Builder()
                 .baseUrl("https://coronavirus-monitor.p.rapidapi.com/coronavirus/")
                 .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .client(client)
                 .build()
 
             val D: InstractionsInterface = retrofit.create(InstractionsInterface::class.java)
             var call = D.getImage()
             Log.i("tag", "test1")
-            call.enqueue(object : Callback<ResponseBody> {
-                override fun onResponse(
-                    call: Call<ResponseBody>,
-                    response: retrofit2.Response<ResponseBody>
-                ) {
-                    Log.i("tag", "test2 Instractions")
-                    if (response.code() == 200) {
-                        // Delete previuos data
-                        //ViewModel?.delete()
-                        Log.i("tag", "test3 Instractions")
+            call.observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe({ response -> onResponse(response) }, { t -> onFailure(t) })
 
-                        val Response = response.body()!!
-                        Log.i("tag", "test4 Instractions")
-                        val bmp = BitmapFactory.decodeStream(Response.byteStream())
-                        //  imageView.setImageBitmap(bmp)
-                        Log.i("tag", "HIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIIII " + bmp);
-                        //   bitmapStore.value = bmp.toString()
-                        img.setImageBitmap(bmp)
-                        //  onComplete(bmp)
-
-                    }
-                    call.cancel()
-
-                }
-
-                override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                    Log.i("tag", "Activity Failure $t")
-                    println("Activity Failure.")
-                    //onComplete(null)
-                    call.request()
-
-                }
-            })
-            Log.i("tag", "test3")
         } else {
             Toast.makeText(context, "Please check your internet connection", Toast.LENGTH_LONG)
                 .show();
         }
 
 
+    }
+
+    private fun onFailure(t: Throwable?) {
+        Log.i("tag", "Activity Failure $t")
+        println("Activity Failure.")
+    }
+
+    private fun onResponse(response: ResponseBody?) {
+        Log.i("tag", "test2 Instractions")
+
+        val Response = response!!
+        val bmp = BitmapFactory.decodeStream(Response.byteStream())
+        img.setImageBitmap(bmp)
     }
 }
 

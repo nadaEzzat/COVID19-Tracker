@@ -4,7 +4,6 @@ package ITI.covid19_tracker.db
 import ITI.covid19_tracker.db.statisticdb.statisticDao
 import ITI.covid19_tracker.model.Country
 import ITI.covid19_tracker.model.statisticModel
-import ITI.covid19_tracker.model.subscribeCountry
 import android.content.Context
 import androidx.room.Database
 import androidx.room.Room

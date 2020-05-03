@@ -38,11 +38,9 @@
             android:foregroundGravity="center"
             android:gravity="center"
             android:text="COVID-19"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textColor="@color/Red"
             android:textColorHighlight="#AE0606"
-            android:textSize="50dp"
-            android:textStyle="bold" />
+            android:textSize="50dp" />
 
         <TextView
             android:id="@+id/textView3"
@@ -52,11 +50,9 @@
             android:foregroundGravity="center"
             android:gravity="center"
             android:text="TRACKER"
-            android:textAppearance="@style/TextAppearance.AppCompat.Display1"
             android:textColor="@color/Red"
             android:textColorHighlight="#AE0606"
-            android:textSize="50dp"
-            android:textStyle="bold" />
+            android:textSize="30sp" />
 
     </LinearLayout>
 
