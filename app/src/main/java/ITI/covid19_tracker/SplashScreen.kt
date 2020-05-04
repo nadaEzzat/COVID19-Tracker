@@ -127,7 +127,6 @@ Alarm will be triggered approximately after one hour and will be repeated every 
                 mContext.getSystemService(Context.POWER_SERVICE) as PowerManager
             if (!pm.isIgnoringBatteryOptimizations(packageName)) {
 
-                Log.i("tag", "WORK MANAGERRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR")
                 Log.i("tag", "" + time + "")
 
 /*

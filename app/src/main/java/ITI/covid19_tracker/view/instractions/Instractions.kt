@@ -37,6 +37,8 @@ class Instractions : AppCompatActivity() {
 
         supportActionBar!!.title = "Instractions"
 
+        Toast.makeText(context, "Loading Data...", Toast.LENGTH_SHORT)
+            .show();
 
         context = applicationContext
         img = findViewById(R.id.Instraction_img)

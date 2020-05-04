@@ -113,6 +113,60 @@
                     android:orientation="vertical">
 
                     <LinearLayout
+                        android:id="@+id/cases"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textView4"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:text="Cases"
+                                android:textColor="#101010"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/cases_id"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:textColor="#101010" />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/textView6"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:text="New Cases"
+                                android:textColor="#171616"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/new_cases_id"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:textColor="#171616" />
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <LinearLayout
                         android:id="@+id/death"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -168,60 +222,6 @@
                     </LinearLayout>
 
                     <LinearLayout
-                        android:id="@+id/cases"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:weightSum="2">
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/textView4"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:text="Cases"
-                                android:textColor="#101010"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/cases_id"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:textColor="#101010" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:orientation="vertical">
-
-                            <TextView
-                                android:id="@+id/textView6"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:text="New Cases"
-                                android:textColor="#171616"
-                                android:textStyle="bold" />
-
-                            <TextView
-                                android:id="@+id/new_cases_id"
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:layout_marginTop="10dp"
-                                android:textColor="#171616" />
-                        </LinearLayout>
-                    </LinearLayout>
-
-                    <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
@@ -245,6 +245,15 @@
                             android:textColor="#0C0C0C" />
                     </LinearLayout>
 
+                    <Button
+                        android:id="@+id/history_id"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/button_border"
+                        android:text="History"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
                 </LinearLayout>
 
             </androidx.appcompat.widget.LinearLayoutCompat>
@@ -257,6 +266,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/subscribe_buttin"
                 android:text="SUBSCRIBE"
+                android:textColor="#F6F5F5"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 

@@ -43,6 +43,7 @@ class statisticsFragment : Fragment() {
     ): View? {
         // Inflate the layout for this fragment
         var view = inflater.inflate(R.layout.fragment_statistics, container, false)
+
         var SwipeRefreshBarChart: SwipeRefreshLayout = view.findViewById(R.id.SwipeRefreshBarChart)
 
         Static_context = this!!.context!!
@@ -174,6 +175,7 @@ class statisticsFragment : Fragment() {
         Log.i("tag", "Fetching data")
         if (checkInternetConnection()) {
             fetchStatisticData.getDetails(ViewModel)
+
             Toast.makeText(
                 Static_context,
                 "Loading Data...",

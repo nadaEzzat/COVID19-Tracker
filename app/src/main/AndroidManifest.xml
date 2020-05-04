@@ -3,8 +3,7 @@
     package="ITI.covid19_tracker">
 
     <uses-permission android:name="android.permission.REQUEST_IGNORE_BATTERY_OPTIMIZATIONS" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"/>
-
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
@@ -15,9 +14,12 @@
         android:roundIcon="@drawable/ic_patient"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".view.instractions.Instractions"
-            android:theme="@style/SetingTheme">
-        </activity>
+
+        <activity android:name=".view.history.history" android:theme="@style/SetingTheme" />
+
+        <activity
+            android:name=".view.instractions.Instractions"
+            android:theme="@style/SetingTheme"></activity>
         <activity
             android:name=".view.settings.settingsMain2Activity"
             android:theme="@style/SetingTheme" />

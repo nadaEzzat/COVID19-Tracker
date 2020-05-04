@@ -2,8 +2,10 @@ package ITI.covid19_tracker.view
 
 import ITI.covid19_tracker.R
 import ITI.covid19_tracker.model.Country
+import ITI.covid19_tracker.view.history.history
 import ITI.covid19_tracker.viewmodel.MainViewModel
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -11,6 +13,7 @@ import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.widget.LinearLayoutCompat
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 
 class MainAdapter(private val context: Context, private val country: List<Country>?, ViewModel: MainViewModel?) :
@@ -79,6 +82,12 @@ class MainAdapter(private val context: Context, private val country: List<Countr
             viewHolder.subscribe_id.text = "UNSUBSCRIBE"
         }
 
+        viewHolder.history.setOnClickListener {
+            val intent =Intent(context , history::class.java)
+            intent.putExtra("country_name",country?.get(index)?.country_name)
+            context.startActivity(intent)
+        }
+
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -89,6 +98,7 @@ class MainAdapter(private val context: Context, private val country: List<Countr
         var new_deaths: TextView = itemView.findViewById(R.id.new_death_id) as TextView
         var total_recovered: TextView = itemView.findViewById(R.id.total_recovered_id) as TextView
         var showdetails: Button = itemView.findViewById(R.id.details_id) as Button
+        var history : Button = itemView.findViewById(R.id.history_id) as Button
         var Details: LinearLayoutCompat =
             itemView.findViewById(R.id.CountryDetails_id) as LinearLayoutCompat
         var total_cases_per_1m_population: TextView =

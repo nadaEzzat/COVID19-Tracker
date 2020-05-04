@@ -11,12 +11,13 @@ import java.util.*
 class UploadWorker(appContext: Context, workerParams: WorkerParameters) : Worker(appContext, workerParams) {
 
     override fun doWork(): Result {
-        println("Wok Done")
-        val date = Calendar.getInstance().time
+
+  /*
+      val date = Calendar.getInstance().time
         val formatter = SimpleDateFormat.getDateTimeInstance() //or use getDateInstance()
         val formatedDate = formatter.format(date)
         println(formatedDate)
-
+*/
         SplashScreen.FetchDataAPIData()
         return Result.success()
 
